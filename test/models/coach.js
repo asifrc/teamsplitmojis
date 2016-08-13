@@ -15,15 +15,19 @@ describe("Coach", function() {
   });
 
   it("should add an _id to a new coach", function() {
-    var name = "Godzilla";
-    var coach = Coach.create(name);
+    var coachData= {
+      "Name": "Godzilla"
+    };
+    var coach = Coach.create(coachData);
 
     should.exist(coach._id);
   });
 
   it("should find a created coach by id", function() {
-    var name = "Godzilla";
-    var coach = Coach.create(name);
+    var coachData= {
+      "Name": "Godzilla"
+    };
+    var coach = Coach.create(coachData);
 
     Coach.findById(coach._id).should.eql(coach);
   });
@@ -33,16 +37,16 @@ describe("Coach", function() {
   });
 
   it("should list all coaches that have been created", function() {
-    var godzilla = Coach.create("Godzilla");
-    var rickshaw = Coach.create("Rick Shaw");
+    var godzilla = Coach.create({"Name": "Godzilla"});
+    var rickshaw = Coach.create({"Name": "Rick Shaw"});
 
     //Assertion is unfortunately order-specific
     Coach.findAll().should.eql([godzilla, rickshaw]);
   });
 
   it("should remove all coaches", function() {
-    var godzilla = Coach.create("Godzilla");
-    var rickshaw = Coach.create("Rick Shaw");
+    var godzilla = Coach.create({"Name": "Godzilla"});
+    var rickshaw = Coach.create({"Name": "Rick Shaw"});
 
     Coach.removeAll();
 

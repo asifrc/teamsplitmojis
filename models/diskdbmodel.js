@@ -4,10 +4,8 @@ var DiskDBModel = function(collection, db) {
 
   db.loadCollections([collection]);
 
-  var create = function(name) {
-    var coach = db[collection].save({
-      "Name": name
-    });
+  var create = function(data) {
+    var coach = db[collection].save(data);
     return coach;
   };
   self.create = create;
