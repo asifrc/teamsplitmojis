@@ -14,22 +14,13 @@ describe("DiskDBModel", function() {
     helper.deleteDB();
   });
 
-  it("should add an _id to a new model", function() {
+  it("should find a created model by name", function() {
     var modelData= {
       "Name": "Godzilla"
     };
     var model = Model.create(modelData);
 
-    should.exist(model._id);
-  });
-
-  it("should find a created model by id", function() {
-    var modelData= {
-      "Name": "Godzilla"
-    };
-    var model = Model.create(modelData);
-
-    Model.findById(model._id).should.eql(model);
+    Model.findByName(model.Name).should.eql(model);
   });
 
   it("should find zero models when no models have been created", function() {

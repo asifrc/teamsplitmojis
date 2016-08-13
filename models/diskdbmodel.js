@@ -10,11 +10,11 @@ var DiskDBModel = function(collection, db) {
   };
   self.create = create;
 
-  var findById = function(id) {
-    var coach = db[collection].findOne({_id: id});
+  var findByName = function(name) {
+    var coach = db[collection].findOne({Name: name});
     return coach;
   }
-  self.findById = findById;
+  self.findByName = findByName;
 
   var findAll = function() {
     return db[collection].find();
