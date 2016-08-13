@@ -1,40 +1,45 @@
-var router = require('express').Router();
-
 var CONFIG = require('../config');
-
 var db = require('../models/db')(CONFIG);
-
 var Spreadsheet = require('../models/spreadsheet');
-var Coach = require('../models/coach')(db);
 
-var respond = function(res, result) {
-  res.contentType('application/json');
-  res.send(JSON.stringify(result));
+var Models = {
+  'coaches': require('../models/coach')(db)
 };
 
-router.get('/', function(req, res) {
-  var result = {
-    "coaches": Coach.findAll()
-  };
-  respond(res, result);
-});
+var ModelRouter = function(model) {
+  var router = require('express').Router();
 
-router.post('/', function(req, res) {
-  var result = {
-    'error': null
+  var respond = function(res, result) {
+    res.contentType('application/json');
+    res.send(JSON.stringify(result));
   };
-  var coachData = Spreadsheet.load(Coach.fields, req.body.coachData);
-  if (coachData) {
-    Coach.removeAll();
-    coachData.forEach(function(coach) {
-      Coach.create(coach);
-    });
-    result.coaches = Coach.findAll();
-  }
-  else {
-    result.error = "Invalidly formatted data";
-  }
-  respond(res, result);
-});
 
-module.exports = router;
+  router.get('/', function(req, res) {
+    var result = {
+      "coaches": Models[model].findAll()
+    };
+    respond(res, result);
+  });
+
+  router.post('/', function(req, res) {
+    var result = {
+      'error': null
+    };
+    var coachData = Spreadsheet.load(Models[model].fields, req.body.coachData);
+    if (coachData) {
+      Models[model].removeAll();
+      coachData.forEach(function(coach) {
+        Models[model].create(coach);
+      });
+      result.coaches = Models[model].findAll();
+    }
+    else {
+      result.error = "Invalidly formatted data";
+    }
+    respond(res, result);
+  });
+
+  return router;
+};
+
+module.exports = ModelRouter;
