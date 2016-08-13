@@ -2,55 +2,55 @@ var should = require('should');
 
 var helper = require('../helpers/helper');
 
-describe("Coach", function() {
-  var Coach;
+describe("DiskDBModel", function() {
+  var Model;
 
   beforeEach(function() {
     helper.createDB();
-    Coach = new require('../../models/coach')(helper.db);
+    Model = new require('../../models/diskdbmodel')('model', helper.db);
   });
 
   afterEach(function() {
     helper.deleteDB();
   });
 
-  it("should add an _id to a new coach", function() {
-    var coachData= {
+  it("should add an _id to a new model", function() {
+    var modelData= {
       "Name": "Godzilla"
     };
-    var coach = Coach.create(coachData);
+    var model = Model.create(modelData);
 
-    should.exist(coach._id);
+    should.exist(model._id);
   });
 
-  it("should find a created coach by id", function() {
-    var coachData= {
+  it("should find a created model by id", function() {
+    var modelData= {
       "Name": "Godzilla"
     };
-    var coach = Coach.create(coachData);
+    var model = Model.create(modelData);
 
-    Coach.findById(coach._id).should.eql(coach);
+    Model.findById(model._id).should.eql(model);
   });
 
-  it("should find zero coaches when no coaches have been created", function() {
-    Coach.findAll().should.eql([]);
+  it("should find zero models when no models have been created", function() {
+    Model.findAll().should.eql([]);
   });
 
-  it("should list all coaches that have been created", function() {
-    var godzilla = Coach.create({"Name": "Godzilla"});
-    var rickshaw = Coach.create({"Name": "Rick Shaw"});
+  it("should list all models that have been created", function() {
+    var godzilla = Model.create({"Name": "Godzilla"});
+    var rickshaw = Model.create({"Name": "Rick Shaw"});
 
     //Assertion is unfortunately order-specific
-    Coach.findAll().should.eql([godzilla, rickshaw]);
+    Model.findAll().should.eql([godzilla, rickshaw]);
   });
 
-  it("should remove all coaches", function() {
-    var godzilla = Coach.create({"Name": "Godzilla"});
-    var rickshaw = Coach.create({"Name": "Rick Shaw"});
+  it("should remove all models", function() {
+    var godzilla = Model.create({"Name": "Godzilla"});
+    var rickshaw = Model.create({"Name": "Rick Shaw"});
 
-    Coach.removeAll();
+    Model.removeAll();
 
-    Coach.findAll().should.eql([]);
+    Model.findAll().should.eql([]);
   });
 
 });
