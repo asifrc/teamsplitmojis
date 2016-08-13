@@ -5,7 +5,7 @@ var CoachModel = function(db) {
 
   var create = function(name) {
     var coach = db.coaches.save({
-      "name": name
+      "Name": name
     });
     return coach
   };
@@ -27,6 +27,10 @@ var CoachModel = function(db) {
     db.loadCollections(['coaches']);
   };
   self.removeAll = removeAll;
+
+  self.fields = [
+    'Name'
+  ];
 
   return self;
 };
