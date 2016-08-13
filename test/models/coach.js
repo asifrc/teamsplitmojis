@@ -1,4 +1,4 @@
-var should = require("should");
+var should = require('should');
 
 var helper = require('../helpers/helper');
 
@@ -7,8 +7,9 @@ describe("Coach", function() {
 
   beforeEach(function() {
     helper.createDB();
-    Coach = new require("../../models/coach")(helper.db);
+    Coach = new require('../../models/coach')(helper.db);
   });
+
   afterEach(function() {
     helper.deleteDB();
   });
@@ -47,4 +48,5 @@ describe("Coach", function() {
 
     Coach.findAll().should.eql([]);
   });
+
 });
