@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var coaches = require('./models')('coaches');
+var coachees = require('./models')('coachees');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -13,5 +14,6 @@ router.get('/datainput', function(req, res) {
 });
 
 router.use('/coaches', coaches);
+router.use('/coachees', coachees);
 
 module.exports = router;

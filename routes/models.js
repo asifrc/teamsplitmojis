@@ -3,7 +3,8 @@ var db = require('../models/db')(CONFIG);
 var Spreadsheet = require('../models/spreadsheet');
 
 var Models = {
-  'coaches': require('../models/coach')(db)
+  'coaches': require('../models/coach')(db),
+  'coachees': require('../models/coachee')(db)
 };
 
 var ModelRouter = function(model) {
@@ -15,9 +16,8 @@ var ModelRouter = function(model) {
   };
 
   router.get('/', function(req, res) {
-    var result = {
-      "coaches": Models[model].findAll()
-    };
+    var result = {};
+    result[model] = Models[model].findAll();
     respond(res, result);
   });
 
@@ -25,13 +25,13 @@ var ModelRouter = function(model) {
     var result = {
       'error': null
     };
-    var coachData = Spreadsheet.load(Models[model].fields, req.body.coachData);
+    var coachData = Spreadsheet.load(Models[model].fields, req.body.data);
     if (coachData) {
       Models[model].removeAll();
       coachData.forEach(function(coach) {
         Models[model].create(coach);
       });
-      result.coaches = Models[model].findAll();
+      result[model] = Models[model].findAll();
     }
     else {
       result.error = "Invalidly formatted data";
